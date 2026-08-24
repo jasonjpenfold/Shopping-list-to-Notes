@@ -10,10 +10,13 @@ struct ContentView: View {
                     .imageScale(.large)
                     .foregroundColor(.accentColor)
                 List{
-                    
+                    ListView()
                 }
             }.navigationTitle("Shopping List")
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbar{
+                    EditButton()
+                }
                     }
         ShareLink("Share to Notes", item: model.formattedList)
     }
