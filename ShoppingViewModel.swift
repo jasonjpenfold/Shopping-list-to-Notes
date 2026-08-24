@@ -3,28 +3,47 @@ import SwiftUI
 @Observable
 class ShoppingViewModel{
     
-    var shoppingList: [String] = UserDefaults.standard.object(forKey: "shoppingList") as? [String] ?? [
-        "Bread",
-        "Milk",
-        "Cheese",
-        "Butter",
-        "Coco pops"
-    ]
+    private(set) var shoppingList: [Item]
     
     var formattedList: String{
-        return "Shopping List\n" + shoppingList.joined(separator: "\n")
+        let list = shoppingList.map{$0.name}
+        return "Shopping List\n" + list.joined(separator: "\n")
     }
     init(){
+        func loadShoppingList()->[Item]{
+            guard let data = UserDefaults.standard.data(forKey: "shoppingList") else { return []}
+            do{
+                let shoppingList: [Item] = try JSONDecoder().decode([Item].self, from: data)
+                return shoppingList
+            }catch{
+                return []
+            }
+            
+        }
+        let data = loadShoppingList()
+        self.shoppingList = data
+        
         
     }
-    
-    func addItem(item: String)->Bool{
+    func createItem(name: String)->Item{
+        return Item(id: UUID(), name: name)
+    }
+    func addItem(name: String)->Bool{
+        let item = createItem(name: name)
         shoppingList.append(item)
+        print("Got to addItem")
         updateSave()
         return true
     }
     func updateSave(){
-        UserDefaults.standard.set(shoppingList, forKey: "shoppingList")
+        do{
+            let data = try JSONEncoder().encode(shoppingList)
+            UserDefaults.standard.set(data, forKey: "shoppingList")
+        }catch{
+            print("Error: unable to save data")
+        }
+        
+    
     }
     func deleteItem(indexSet: IndexSet){
         shoppingList.remove(atOffsets: indexSet)

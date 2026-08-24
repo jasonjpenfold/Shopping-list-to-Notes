@@ -8,7 +8,7 @@ struct AddItemView: View{
             TextField("", text: $newItem, prompt: Text("Next item:"))
             Button(action: {
                 if newItem.isEmpty{return}
-                newItem = model.addItem(item: newItem) ? "" : newItem
+                newItem = model.addItem(name: newItem) ? "" : newItem
                 
             }, label: {
                 Image(systemName: "plus")
