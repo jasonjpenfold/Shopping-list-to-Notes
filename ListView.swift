@@ -13,8 +13,6 @@ struct ListView: View{
             model.moveItem(from: indices, to: newOffset)
         })
         
-        Button("Add"){
-            
-        }
+        AddItemView()
     }
 }
