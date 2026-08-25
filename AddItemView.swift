@@ -6,6 +6,9 @@ struct AddItemView: View{
     var body: some View{
         HStack{
             TextField("", text: $newItem, prompt: Text("Next item:"))
+                .keyboardType(.default)
+                .textInputAutocapitalization(.sentences)
+                
             Button(action: {
                 if newItem.isEmpty{return}
                 newItem = model.addItem(name: newItem) ? "" : newItem
