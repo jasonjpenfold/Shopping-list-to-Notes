@@ -10,7 +10,7 @@ struct TransferableFile: Transferable{
             file in 
             let fileManager = FileManager.default
             let temporaryDir = fileManager.temporaryDirectory
-            let url = temporaryDir.appendingPathComponent("helloworld", conformingTo: .html)
+            let url = temporaryDir.appendingPathComponent("shopping", conformingTo: .html)
             
             try! file.htmlText.write(to: url, atomically: true, encoding: .utf8)
             
