@@ -18,6 +18,6 @@ struct ContentView: View {
                     EditButton()
                 }
                     }
-        ShareLink("Share to Notes", item: model.formattedList)
+        ShareLink("Share list to Notes", item: model.formattedList, subject: Text("Shopping List"))
     }
 }

@@ -6,8 +6,8 @@ class ShoppingViewModel{
     private(set) var shoppingList: [Item]
     
     var formattedList: String{
-        let list = shoppingList.map{$0.name}
-        return "Shopping List\n" + list.joined(separator: "\n")
+        let list = shoppingList.map{"• \($0.name)"}
+        return "Shopping List\n\n" + list.joined(separator: "\n")
     }
     init(){
         func loadShoppingList()->[Item]{
