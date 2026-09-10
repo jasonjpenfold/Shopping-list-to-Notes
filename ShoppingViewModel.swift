@@ -17,6 +17,9 @@ class ShoppingViewModel{
         return "<h1>Shopping List</h1>" + list.joined(separator:"<br>")
 
     }
+    
+    var isError: ShoppingError? = nil
+    
     init(){
         func loadShoppingList()->[Item]{
             guard let data = UserDefaults.standard.data(forKey: "shoppingList") else { return []}
@@ -33,15 +36,27 @@ class ShoppingViewModel{
         
         
     }
+    func validateItemName(name: String)->Bool{
+        if name.contains("\"") || name.contains("'") || name.contains("“") || name.contains("<") ||
+            name.contains(">") ||
+            name.contains("&"){
+            self.isError = .illegalName
+            return false
+            
+        }
+        return true
+    }
+    
     func createItem(name: String)->Item{
         return Item(id: UUID(), name: name)
     }
-    func addItem(name: String)->Bool{
+    func addItem(name: String){
+        guard self.validateItemName(name: name) else {return}
         let item = createItem(name: name)
         shoppingList.append(item)
         
         updateSave()
-        return true
+        
     }
     func updateSave(){
         do{
@@ -49,6 +64,8 @@ class ShoppingViewModel{
             UserDefaults.standard.set(data, forKey: "shoppingList")
         }catch{
             print("Error: unable to save data")
+            self.isError = .saveError
+            
         }
         
     
@@ -61,6 +78,7 @@ class ShoppingViewModel{
         shoppingList.move(fromOffsets: source, toOffset: destination)
         updateSave()
     }
+    
     
     
     
