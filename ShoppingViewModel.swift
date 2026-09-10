@@ -39,7 +39,7 @@ class ShoppingViewModel{
     func addItem(name: String)->Bool{
         let item = createItem(name: name)
         shoppingList.append(item)
-        print("Got to addItem")
+        
         updateSave()
         return true
     }
@@ -55,9 +55,11 @@ class ShoppingViewModel{
     }
     func deleteItem(indexSet: IndexSet){
         shoppingList.remove(atOffsets: indexSet)
+        updateSave()
     }
     func moveItem(from source: IndexSet, to destination: Int){
         shoppingList.move(fromOffsets: source, toOffset: destination)
+        updateSave()
     }
     
     
