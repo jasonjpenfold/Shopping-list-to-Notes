@@ -9,6 +9,14 @@ class ShoppingViewModel{
         let list = shoppingList.map{"• \($0.name)"}
         return "Shopping List\n\n" + list.joined(separator: "\n")
     }
+    var htmlList: String{
+        let list = shoppingList.map{"""
+<input type="checkbox" id="\($0.id)">
+<label for="\($0.id)">\($0.name)</label>
+"""}
+        return "<h1>Shopping List</h1>" + list.joined(separator:"<br>")
+
+    }
     init(){
         func loadShoppingList()->[Item]{
             guard let data = UserDefaults.standard.data(forKey: "shoppingList") else { return []}
